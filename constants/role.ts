@@ -1,4 +1,4 @@
-import { ERole } from '../types/Player';
+import { ERole } from '../types/player';
 
 export const AVAILABLE_ROLES = [
   ERole.Don,

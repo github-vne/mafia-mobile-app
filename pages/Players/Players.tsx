@@ -1,7 +1,7 @@
 import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Player } from './features/Player';
-import { TPlayer } from '../../types/Player';
+import { TPlayer } from '../../types/player';
 
 export const Players = ({ navigation }: { navigation: any }) => {
   const { players } = useSelector(

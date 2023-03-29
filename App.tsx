@@ -14,7 +14,7 @@ export default function App() {
   return (
     <Provider store={appStores}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Game">
           <Stack.Screen
             name="Home"
             component={Home}
@@ -33,7 +33,7 @@ export default function App() {
           <Stack.Screen
             name="Game"
             component={Game}
-            options={{ title: 'Game' }}
+            // options={{ title: 'Game' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

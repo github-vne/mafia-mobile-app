@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ERole, TPlayer } from '../../types/Player';
+import { ERole, TPlayer } from '../../types/player';
 import { AVAILABLE_ROLES } from '../../constants/role';
 import { updatePlayerFields } from '../../stores/players';
 
