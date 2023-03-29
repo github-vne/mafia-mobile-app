@@ -1,0 +1,10 @@
+.cache/
+node_modules/
+img/
+nextjs/
+
+package.json
+yarn.lock
+
+*.html
+*.md
