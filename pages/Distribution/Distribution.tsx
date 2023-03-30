@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ERole, TPlayer } from '../../types/player';
 import { AVAILABLE_ROLES } from '../../constants/role';
-import { updatePlayerFields } from '../../stores/players';
+import { useStore } from '../../hooks';
 
 export const Distribution = ({ navigation }: { navigation: any }) => {
-  const dispatch = useDispatch();
+  const { updatePlayer } = useStore();
 
   const [playerIndex, setPlayerIndex] = useState(0);
   const [currentRole, setCurrentRole] = useState<ERole | null>(null);
@@ -20,7 +20,7 @@ export const Distribution = ({ navigation }: { navigation: any }) => {
     const roleIndex = Math.floor(Math.random() * availableRoles.length);
     const role = availableRoles[roleIndex];
 
-    dispatch(updatePlayerFields({ id: players[playerIndex].id, role }));
+    updatePlayer(players[playerIndex].id, { role });
 
     const newRoles = [...availableRoles];
     newRoles.splice(roleIndex, 1);

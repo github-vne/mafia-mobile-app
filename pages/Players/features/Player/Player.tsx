@@ -1,22 +1,23 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { TPlayer } from '../../../../types/player';
-import { updatePlayerFields } from '../../../../stores/players';
+import { useStore } from '../../../../hooks';
 
 interface IPlayer {
   player: TPlayer;
 }
 
 export const Player = ({ player }: IPlayer) => {
-  const dispatch = useDispatch();
+  const { updatePlayer } = useStore();
 
   const handlePress = (name: string) => {
-    dispatch(updatePlayerFields({ name, id: player.id }));
+    updatePlayer(player.id, { name });
   };
 
   return (
     <View style={styles.container}>
-      <Text>{player.order}) {player.role}</Text>
+      <Text>
+        {player.order}) {player.role}
+      </Text>
       <TextInput
         style={styles.input}
         onChangeText={(value) => handlePress(value)}

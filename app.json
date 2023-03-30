@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "mafia",
-    "slug": "mafia",
+    "slug": "mafia-project",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b05edd97-51dc-4024-b4cd-5738546dbd8f"
+      }
+    },
+    "owner": "vne895"
   }
 }

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ERole, TPlayer } from '../types/player';
-import {AVAILABLE_ROLES} from "../constants/role";
+import { AVAILABLE_ROLES } from '../constants/role';
+import { TPlayer } from '../types/player';
 
 let tempRoles = [...AVAILABLE_ROLES];
 
@@ -11,22 +11,28 @@ const getRandomRole = () => {
   tempRoles.splice(roleIndex, 1);
 
   return role;
-}
+};
 
 const PLAYERS: TPlayer[] = Array.from(new Array(10), (_, i) => i).map((el) => ({
   id: `id-${el}`,
   name: 'User #' + el,
   order: el + 1,
-  role: getRandomRole()
+  role: getRandomRole(),
+  fall: 0
 }));
 
-const playersSlice = createSlice({
-  name: 'players',
+const gameSlice = createSlice({
+  name: 'game',
   initialState: {
-    players: PLAYERS
+    players: PLAYERS,
+    isShowRoles: false,
+    name: ''
   },
   reducers: {
-    updatePlayerFields(state, action: PayloadAction<Partial<TPlayer>>) {
+    setIsShowRoles(state, action: PayloadAction<boolean>) {
+      state.isShowRoles = action.payload;
+    },
+    updatePlayerData(state, action: PayloadAction<Partial<TPlayer>>) {
       const { id, ...fields } = action.payload;
       state.players = state.players.map((player) => ({
         ...player,
@@ -36,5 +42,5 @@ const playersSlice = createSlice({
   }
 });
 
-export const { updatePlayerFields } = playersSlice.actions;
-export default playersSlice.reducer;
+export const { setIsShowRoles, updatePlayerData } = gameSlice.actions;
+export default gameSlice.reducer;

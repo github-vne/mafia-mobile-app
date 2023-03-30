@@ -1,47 +1,90 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
 import { TPlayer } from '../../../../types/player';
-import { updatePlayerFields } from '../../../../stores/players';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useStore } from '../../../../hooks';
 
 interface IPlayer {
   player: TPlayer;
 }
 
 export const Player = ({ player }: IPlayer) => {
-  const dispatch = useDispatch();
+  const { store, updatePlayer } = useStore();
 
-  const handlePress = (name: string) => {
-    dispatch(updatePlayerFields({ name, id: player.id }));
+  const handleVote = (e: any) => {
+    e.stopPropagation();
+    updatePlayer(player.id, { isVote: !player.isVote });
+  };
+
+  const handleRemove = (e: any) => {
+    e.stopPropagation();
+    updatePlayer(player.id, { isDeleted: !player.isDeleted });
+  };
+
+  const handleFall = () => {
+    updatePlayer(player.id, { fall: player.fall + 1 });
   };
 
   return (
-    <View style={styles.container}>
-      <Text>{player.order}) </Text>
-      <FontAwesome size={22} name="user" />
-      <Text>{player.name}</Text>
-      <View style={styles.actions}>
-        <FontAwesome size={28} name="close" />
-        <FontAwesome size={28} name="check" />
-        <Text style={styles.fall}>0</Text>
+    <TouchableWithoutFeedback onPress={handleFall}>
+      <View
+        style={[
+          styles.root,
+          player.isVote && styles.isVote,
+          player.isDeleted && styles.isDeleted
+        ]}
+      >
+        <View style={styles.data}>
+          {store.isShowRoles && <FontAwesome size={20} name="user" />}
+          <Text style={styles.number}>
+            {player.order}(<Text style={styles.fall}>{player.fall}</Text>)
+          </Text>
+          <Text>{player.name}</Text>
+        </View>
+
+        <View style={styles.actions}>
+          <TouchableWithoutFeedback onPress={handleRemove}>
+            <FontAwesome size={28} name="close" />
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={handleVote}>
+            <FontAwesome size={28} name="check" />
+          </TouchableWithoutFeedback>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    borderStyle: 'solid',
+  root: {
     backgroundColor: '#fff',
     alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
-    padding: 16,
-    paddingLeft: 8,
-    paddingRight: 8,
-    marginBottom: 8
+    padding: 12,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  isVote: {
+    backgroundColor: 'green'
+  },
+  isDeleted: {
+    backgroundColor: '#444'
+  },
+  data: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8
+  },
+  number: {
+    fontSize: 24,
+    fontWeight: 'bold'
   },
   actions: {
     flex: 1,
@@ -51,7 +94,6 @@ const styles = StyleSheet.create({
     gap: 16
   },
   fall: {
-    fontSize: 28,
-    fontWeight: 'bold'
+    color: 'red'
   }
 });

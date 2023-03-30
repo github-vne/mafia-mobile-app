@@ -10,4 +10,7 @@ export type TPlayer = {
   order: number;
   name: string;
   role: ERole;
+  fall: number;
+  isVote?: boolean;
+  isDeleted?: boolean;
 };

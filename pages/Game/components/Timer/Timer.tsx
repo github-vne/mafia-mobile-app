@@ -1,52 +1,42 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
-import { useEffect, useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 
 export const Timer = () => {
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [isStop, setIsStop] = useState(true);
-  const [isPause, setIsPause] = useState(false);
+  const [time, setTime] = useState(60);
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (!timeLeft || isStop) return;
-
-    const intervalId = setInterval(() => {
-      if (!isPause) setTimeLeft(timeLeft - 1);
+  const handleStart = () => {
+    setIsRunning(true);
+    intervalRef.current = setInterval(() => {
+      setTime((prevTime) => prevTime - 1);
     }, 1000);
-
-    if (isStop) {
-      return () => clearInterval(intervalId);
-    }
-
-    return () => clearInterval(intervalId);
-  }, [isStop, timeLeft, isPause]);
+  };
 
   const handleStop = () => {
-    setIsPause(false);
-    setIsStop(true);
-    setTimeLeft(60);
+    clearInterval(intervalRef.current);
+    setIsRunning(false);
+    setTime(60);
   };
 
-  const togglePause = () => {
-    setIsPause((prev) => !prev);
-  };
-
-  const startTimer = () => {
-    setIsPause(false);
-    setIsStop(false);
+  const handlePause = () => {
+    clearInterval(intervalRef.current);
+    setIsRunning(false);
   };
 
   return (
     <View style={styles.root}>
-      <Text style={styles.timer}>{timeLeft} s</Text>
+      <Text style={styles.timer}>{time} s</Text>
       <View style={styles.timerAction}>
-        {isStop ? (
-          <Button title="Start" onPress={startTimer} />
+        {!isRunning ? (
+          <Button title="Start" onPress={handleStart} />
         ) : (
           <>
             <Button title="Stop" onPress={handleStop} />
             <Button
-              title={!isPause ? 'Pause' : 'Continue'}
-              onPress={togglePause}
+              title={isRunning ? 'Pause' : 'Continue'}
+              onPress={handlePause}
             />
           </>
         )}
