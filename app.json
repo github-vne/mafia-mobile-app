@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vne895.mafia-project"
     },
     "android": {
       "adaptiveIcon": {
@@ -31,6 +32,12 @@
         "projectId": "b05edd97-51dc-4024-b4cd-5738546dbd8f"
       }
     },
-    "owner": "vne895"
+    "owner": "vne895",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b05edd97-51dc-4024-b4cd-5738546dbd8f"
+    }
   }
 }
