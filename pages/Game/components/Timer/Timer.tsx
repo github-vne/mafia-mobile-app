@@ -30,7 +30,10 @@ export const Timer = () => {
       <Text style={styles.timer}>{time} s</Text>
       <View style={styles.timerAction}>
         {!isRunning ? (
-          <Button title="Start" onPress={handleStart} />
+          <Button
+            title={time !== 60 ? 'Continue' : 'Start'}
+            onPress={handleStart}
+          />
         ) : (
           <>
             <Button title="Stop" onPress={handleStop} />

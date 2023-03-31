@@ -1,9 +1,9 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useMemo, useState } from 'react';
 import { ERole, TPlayer } from '../../types/player';
 import { AVAILABLE_ROLES } from '../../constants/role';
 import { useStore } from '../../hooks';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export const Distribution = ({ navigation }: { navigation: any }) => {
   const { store, updatePlayer } = useStore();
@@ -30,9 +30,23 @@ export const Distribution = ({ navigation }: { navigation: any }) => {
     setPlayerIndex((prev) => prev + 1);
   };
 
+  const getRoleIcon = useMemo(() => {
+    switch (currentRole) {
+      case ERole.Don:
+        return 'chain';
+      case ERole.Sheriff:
+        return 'star';
+      case ERole.Mafia:
+        return 'user-secret';
+      default:
+        return 'user';
+    }
+  }, [currentRole]);
+
   return (
     <View style={styles.container}>
-      <Text>{currentRole}</Text>
+      <FontAwesome size={160} name={currentRole ? getRoleIcon : 'question'} />
+      <Text style={styles.role}>{currentRole || '---'}</Text>
       {!!availableRoles.length ? (
         <View style={styles.options}>
           {!!currentRole ? (
@@ -58,6 +72,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16
+  },
+  role: {
+    fontSize: 64
   },
   options: {
     flexDirection: 'row',

@@ -1,18 +1,18 @@
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
-import { Player } from './features/Player';
+import { Button, FlatList, StyleSheet, View } from 'react-native';
+import { Player } from './components/Player';
 import { useStore } from '../../hooks';
 
 export const Players = ({ navigation }: { navigation: any }) => {
   const { store } = useStore();
 
   return (
-    <View style={styles.container}>
+    <View style={styles.root}>
       <FlatList
         data={store.players}
         renderItem={({ item }) => <Player key={item.order} player={item} />}
       />
       <Button
-        title="Start game"
+        title="Get roles"
         onPress={() => navigation.navigate('Distribution')}
       />
     </View>
@@ -20,12 +20,12 @@ export const Players = ({ navigation }: { navigation: any }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    borderWidth: 1,
+  root: {
     flex: 1,
     gap: 6,
     backgroundColor: '#fff',
     justifyContent: 'flex-start',
-    padding: 6
+    padding: 16,
+    paddingBottom: 32
   }
 });

@@ -1,13 +1,8 @@
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View
-} from 'react-native';
-import { TPlayer } from '../../../../types/player';
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { ERole, TPlayer } from '../../../../types/player';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useStore } from '../../../../hooks';
+import { useMemo } from 'react';
 
 interface IPlayer {
   player: TPlayer;
@@ -30,33 +25,49 @@ export const Player = ({ player }: IPlayer) => {
     updatePlayer(player.id, { fall: player.fall + 1 });
   };
 
+  const getRoleIcon = useMemo(() => {
+    switch (player.role) {
+      case ERole.Don:
+        return 'chain';
+      case ERole.Sheriff:
+        return 'star';
+      case ERole.Mafia:
+        return 'user-secret';
+      default:
+        return 'user';
+    }
+  }, [player.role]);
+
   return (
-    <TouchableWithoutFeedback onPress={handleFall}>
-      <View
-        style={[
-          styles.root,
-          player.isVote && styles.isVote,
-          player.isDeleted && styles.isDeleted
-        ]}
-      >
+    <View
+      style={[
+        styles.root,
+        player.isVote && styles.isVote,
+        player.isDeleted && styles.isDeleted
+      ]}
+    >
+      <TouchableWithoutFeedback onPress={handleFall}>
         <View style={styles.data}>
-          {store.isShowRoles && <FontAwesome size={20} name="user" />}
+          {store.isShowRoles && <FontAwesome size={20} name={getRoleIcon} />}
           <Text style={styles.number}>
-            {player.order}(<Text style={styles.fall}>{player.fall}</Text>)
+            {player.order} |{' '}
+            <Text style={[!player.isDeleted && styles.fall]}>
+              {player.fall}
+            </Text>
           </Text>
           <Text>{player.name}</Text>
         </View>
+      </TouchableWithoutFeedback>
 
-        <View style={styles.actions}>
-          <TouchableWithoutFeedback onPress={handleRemove}>
-            <FontAwesome size={28} name="close" />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={handleVote}>
-            <FontAwesome size={28} name="check" />
-          </TouchableWithoutFeedback>
-        </View>
+      <View style={styles.actions}>
+        <TouchableWithoutFeedback onPress={handleRemove}>
+          <FontAwesome size={28} name="close" />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={handleVote}>
+          <FontAwesome size={28} name="check" />
+        </TouchableWithoutFeedback>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };
 
@@ -69,10 +80,11 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#fff'
+    borderColor: '#fff',
+    borderRadius: 16
   },
   isVote: {
-    backgroundColor: 'green'
+    backgroundColor: '#00bcc9'
   },
   isDeleted: {
     backgroundColor: '#444'

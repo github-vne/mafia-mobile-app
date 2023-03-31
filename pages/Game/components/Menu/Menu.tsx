@@ -28,8 +28,8 @@ export const Menu = () => {
         />
       </TouchableWithoutFeedback>
       <FontAwesome size={24} name="arrow-circle-left" />
-      <FontAwesome size={24} name="check" />
-      <FontAwesome size={24} name="check" />
+      <FontAwesome size={24} name="moon-o" />
+      <FontAwesome size={24} name="male" />
     </View>
   );
 };

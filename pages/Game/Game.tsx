@@ -1,6 +1,4 @@
-import { FlatList, StyleSheet, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { TPlayer } from '../../types/player';
+import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { Player } from './components/Player';
 import { Timer } from './components/Timer';
 import { Menu } from './components/Menu';
@@ -10,7 +8,7 @@ export const Game = ({ navigation }: { navigation: any }) => {
   const { store } = useStore();
 
   return (
-    <View style={styles.root}>
+    <SafeAreaView style={styles.root}>
       <Menu />
       <FlatList
         style={styles.list}
@@ -18,7 +16,7 @@ export const Game = ({ navigation }: { navigation: any }) => {
         renderItem={({ item }) => <Player key={item.order} player={item} />}
       />
       <Timer />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -30,9 +28,6 @@ const styles = StyleSheet.create({
     paddingBottom: 16
   },
   list: {
-    paddingLeft: 12,
-    paddingRight: 12,
-    marginRight: -12,
-    marginLeft: -12
+    padding: 12
   }
 });
