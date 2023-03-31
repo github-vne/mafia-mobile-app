@@ -6,21 +6,17 @@ import { AVAILABLE_ROLES } from '../../constants/role';
 import { useStore } from '../../hooks';
 
 export const Distribution = ({ navigation }: { navigation: any }) => {
-  const { updatePlayer } = useStore();
+  const { store, updatePlayer } = useStore();
 
   const [playerIndex, setPlayerIndex] = useState(0);
   const [currentRole, setCurrentRole] = useState<ERole | null>(null);
   const [availableRoles, setAvailableRoles] = useState(AVAILABLE_ROLES);
 
-  const { players } = useSelector(
-    (state: { players: { players: TPlayer[] } }) => state.players
-  );
-
   const getRandomRole = () => {
     const roleIndex = Math.floor(Math.random() * availableRoles.length);
     const role = availableRoles[roleIndex];
 
-    updatePlayer(players[playerIndex].id, { role });
+    updatePlayer(store.players[playerIndex].id, { role });
 
     const newRoles = [...availableRoles];
     newRoles.splice(roleIndex, 1);
@@ -44,7 +40,7 @@ export const Distribution = ({ navigation }: { navigation: any }) => {
           ) : (
             <Button
               onPress={getRandomRole}
-              title={`Get random role ${players[playerIndex].name}`}
+              title={`Get random role ${store.players[playerIndex].name}`}
             />
           )}
         </View>

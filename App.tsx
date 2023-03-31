@@ -14,11 +14,11 @@ export default function App() {
   return (
     <Provider store={appStores}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Game">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={Home}
-            options={{ title: 'Home' }}
+            options={{ title: 'Home', headerShown: false }}
           />
           <Stack.Screen
             name="Players"
@@ -30,11 +30,7 @@ export default function App() {
             component={Distribution}
             options={{ title: 'Distribution' }}
           />
-          <Stack.Screen
-            name="Game"
-            component={Game}
-            // options={{ title: 'Game' }}
-          />
+          <Stack.Screen name="Game" component={Game} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

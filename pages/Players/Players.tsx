@@ -1,17 +1,14 @@
 import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { Player } from './features/Player';
-import { TPlayer } from '../../types/player';
+import { useStore } from '../../hooks';
 
 export const Players = ({ navigation }: { navigation: any }) => {
-  const { players } = useSelector(
-    (state: { players: { players: TPlayer[] } }) => state.players
-  );
+  const { store } = useStore();
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={players}
+        data={store.players}
         renderItem={({ item }) => <Player key={item.order} player={item} />}
       />
       <Button
