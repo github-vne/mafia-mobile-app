@@ -22,14 +22,14 @@ export const Menu = () => {
     <View style={styles.root}>
       <TouchableWithoutFeedback onPress={handleVote}>
         <FontAwesome
+          color="#fff"
           size={24}
           name="eye"
           style={store.isShowRoles && { color: 'green' }}
         />
       </TouchableWithoutFeedback>
-      <FontAwesome size={24} name="arrow-circle-left" />
-      <FontAwesome size={24} name="moon-o" />
-      <FontAwesome size={24} name="male" />
+      <FontAwesome color="#fff" size={24} name="moon-o" />
+      <FontAwesome color="#fff" size={24} name="male" />
     </View>
   );
 };
@@ -37,7 +37,7 @@ export const Menu = () => {
 const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#3B3F58',
     padding: 16,
     justifyContent: 'space-between',
     alignItems: 'center'

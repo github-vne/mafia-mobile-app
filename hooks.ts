@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TStore } from './types/store';
 import { setIsShowRoles, updatePlayerData } from './stores/game';
 import { TPlayer } from './types/player';
+import { useMemo } from 'react';
 
 export const useStore = () => {
   const dispatch = useDispatch();
@@ -15,5 +16,9 @@ export const useStore = () => {
     dispatch(setIsShowRoles(value));
   };
 
-  return { store, updatePlayer, updateIsShowRoles };
+  const votePlayers = useMemo(() => {
+    return store.players.filter(({ isVote }) => !!isVote);
+  }, [store.players]);
+
+  return { store, votePlayers, updatePlayer, updateIsShowRoles };
 };

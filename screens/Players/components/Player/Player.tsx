@@ -25,7 +25,6 @@ export const Player = ({ player }: IPlayer) => {
         style={styles.input}
         onChangeText={(value) => handlePress(value)}
         value={player.name}
-        placeholder="Enter name"
         onFocus={toggleFocus}
         onBlur={toggleFocus}
       />
@@ -37,22 +36,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#fff',
-    padding: 12,
+    backgroundColor: '#3B3F58',
+    padding: 8,
     marginBottom: 8,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 16
   },
   isFocus: {
-    borderColor: '#00bcc9'
+    borderColor: '#fff'
   },
   order: {
+    color: '#fff',
     fontSize: 24,
-    fontWeight: 'bold',
     width: 35
   },
   input: {
-    fontSize: 20,
-    width: '100%'
+    fontSize: 24,
+    fontWeight: 'bold',
+    width: '100%',
+    color: '#fff'
   }
 });

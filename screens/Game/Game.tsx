@@ -1,15 +1,16 @@
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { Player } from './components/Player';
-import { Timer } from './components/Timer';
 import { Menu } from './components/Menu';
 import { useStore } from '../../hooks';
+import { COLORS } from '../../constants/colors';
+import { Timer } from '../../components/Timer';
 
 export const Game = ({ navigation }: { navigation: any }) => {
   const { store } = useStore();
 
   return (
     <SafeAreaView style={styles.root}>
-      <Menu />
+      <Menu navigation={navigation} />
       <FlatList
         style={styles.list}
         data={store.players}
@@ -25,7 +26,8 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 8,
     padding: 12,
-    paddingBottom: 16
+    paddingBottom: 16,
+    backgroundColor: COLORS.bg
   },
   list: {
     padding: 12

@@ -1,20 +1,21 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import { Home } from './pages/Home';
-import { Players } from './pages/Players';
-import { appStores } from './stores/stores';
-import { Distribution } from './pages/Distribution';
-import { Game } from './pages/Game';
+import { Provider } from 'react-redux';
+import { Home } from './screens/Home';
+import { Players } from './screens/Players';
+import { stores } from './stores/stores';
+import { Distribution } from './screens/Distribution';
+import { Game } from './screens/Game';
+import { DistributionType } from './screens/DistributionType';
+import { Vote } from './screens/Vote';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <Provider store={appStores}>
+    <Provider store={stores}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Vote">
           <Stack.Screen
             name="Home"
             component={Home}
@@ -23,16 +24,26 @@ export default function App() {
           <Stack.Screen
             name="Players"
             component={Players}
-            options={{ title: 'Players' }}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DistributionType"
+            component={DistributionType}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="Distribution"
             component={Distribution}
-            options={{ title: 'Distribution' }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="Game"
             component={Game}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Vote"
+            component={Vote}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
@@ -40,12 +51,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});

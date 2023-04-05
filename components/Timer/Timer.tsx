@@ -1,24 +1,28 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
-export const Timer = () => {
-  const [time, setTime] = useState(60);
+export const Timer = ({ sec = 60 }: { sec?: number }) => {
+  const [time, setTime] = useState(sec);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef<any>(null);
 
-  const handleStart = () => {
+  const handleStart = useCallback(() => {
     setIsRunning(true);
     intervalRef.current = setInterval(() => {
       setTime((prevTime) => prevTime - 1);
     }, 1000);
-  };
+  }, []);
 
   const handleStop = () => {
     clearInterval(intervalRef.current);
     setIsRunning(false);
-    setTime(60);
+    setTime(sec);
   };
+
+  useEffect(() => {
+    if (!time) handleStop();
+  }, [time]);
 
   const handlePause = () => {
     clearInterval(intervalRef.current);
@@ -27,11 +31,13 @@ export const Timer = () => {
 
   return (
     <View style={styles.root}>
-      <Text style={styles.timer}>{time} s</Text>
+      <Text style={[styles.timer, time <= 10 && styles.warning]}>
+        {time} sec
+      </Text>
       <View style={styles.timerAction}>
         {!isRunning ? (
           <Button
-            title={time !== 60 ? 'Continue' : 'Start'}
+            title={time !== sec ? 'Continue' : 'Start'}
             onPress={handleStart}
           />
         ) : (
@@ -55,13 +61,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderStyle: 'solid',
-    backgroundColor: '#fff',
-    padding: 8
+    backgroundColor: '#3B3F58',
+    padding: 8,
+    paddingLeft: 16,
+    paddingRight: 16
+  },
+  warning: {
+    color: 'red'
   },
   timer: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333'
+    color: '#fff'
   },
   timerAction: {
     flexDirection: 'row',

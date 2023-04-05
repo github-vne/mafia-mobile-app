@@ -11,6 +11,7 @@ export type TPlayer = {
   name: string;
   role: ERole;
   fall: number;
+  voteCount: number;
   isVote?: boolean;
   isDeleted?: boolean;
 };

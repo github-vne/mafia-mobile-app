@@ -1,13 +1,23 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { ERole, TPlayer } from '../../types/player';
 import { AVAILABLE_ROLES } from '../../constants/role';
 import { useStore } from '../../hooks';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Header } from '../../components/Header';
+import { COLORS } from '../../constants/colors';
+import { Button } from '../../components/Button';
 
 export const Distribution = ({ navigation }: { navigation: any }) => {
   const { store, updatePlayer } = useStore();
 
+  const [selectType, setSelectType] = useState('self');
   const [playerIndex, setPlayerIndex] = useState(0);
   const [currentRole, setCurrentRole] = useState<ERole | null>(null);
   const [availableRoles, setAvailableRoles] = useState(AVAILABLE_ROLES);
@@ -44,34 +54,57 @@ export const Distribution = ({ navigation }: { navigation: any }) => {
   }, [currentRole]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.root}>
+      <Header title="Распределение ролей" />
+
       <FontAwesome size={160} name={currentRole ? getRoleIcon : 'question'} />
       <Text style={styles.role}>{currentRole || '---'}</Text>
       {!!availableRoles.length ? (
         <View style={styles.options}>
           {!!currentRole ? (
-            <Button onPress={nextPlayer} title={`Next player`} />
+            <Button onPress={nextPlayer} text={`Next player`} />
           ) : (
             <Button
               onPress={getRandomRole}
-              title={`Get random role ${store.players[playerIndex].name}`}
+              text={`Get random role ${store.players[playerIndex].name}`}
             />
           )}
         </View>
       ) : (
-        <Button onPress={() => navigation.navigate('Game')} title="Game!" />
+        <Button onPress={() => navigation.navigate('Game')} text="Game!" />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
+    flex: 1,
+    backgroundColor: COLORS.bg
+  },
+  choose: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  types: {
+    flexDirection: 'row',
+    gap: 16,
+    padding: 16
+  },
+  type: {
     flex: 1,
     backgroundColor: '#fff',
+    padding: 16,
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 16
+    justifyContent: 'center'
+  },
+  isActiveType: {
+    backgroundColor: '#0AFF96'
+  },
+  typeText: {
+    color: '#fff',
+    fontSize: 24
   },
   role: {
     fontSize: 64

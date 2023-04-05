@@ -18,7 +18,8 @@ const PLAYERS: TPlayer[] = Array.from(new Array(10), (_, i) => i).map((el) => ({
   name: 'User #' + el,
   order: el + 1,
   role: getRandomRole(),
-  fall: 0
+  fall: 0,
+  voteCount: 0
 }));
 
 const gameSlice = createSlice({

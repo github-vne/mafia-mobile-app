@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { ERole, TPlayer } from '../../../../types/player';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useStore } from '../../../../hooks';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 interface IPlayer {
   player: TPlayer;
@@ -11,18 +11,34 @@ interface IPlayer {
 export const Player = ({ player }: IPlayer) => {
   const { store, updatePlayer } = useStore();
 
+  const handleBackFall = (e: any) => {
+    e.stopPropagation();
+    const newFall = player.fall - 1;
+
+    updatePlayer(player.id, {
+      fall: newFall,
+      ...(newFall == 3 && { isDeleted: false })
+    });
+  };
+
   const handleVote = (e: any) => {
     e.stopPropagation();
+    if (player.isDeleted) return;
     updatePlayer(player.id, { isVote: !player.isVote });
   };
 
   const handleRemove = (e: any) => {
     e.stopPropagation();
-    updatePlayer(player.id, { isDeleted: !player.isDeleted });
+    updatePlayer(player.id, { isDeleted: !player.isDeleted, isVote: false });
   };
 
   const handleFall = () => {
-    updatePlayer(player.id, { fall: player.fall + 1 });
+    const newFall = player.fall + 1;
+    if (newFall > 4) return;
+    updatePlayer(player.id, {
+      fall: newFall,
+      ...(newFall === 4 && { isDeleted: true })
+    });
   };
 
   const getRoleIcon = useMemo(() => {
@@ -49,7 +65,7 @@ export const Player = ({ player }: IPlayer) => {
       <TouchableWithoutFeedback onPress={handleFall}>
         <View style={styles.data}>
           {store.isShowRoles && <FontAwesome size={20} name={getRoleIcon} />}
-          <Text style={styles.number}>
+          <Text style={styles.dataText}>
             {player.order} |{' '}
             <Text style={[!player.isDeleted && styles.fall]}>
               {player.fall}
@@ -60,11 +76,24 @@ export const Player = ({ player }: IPlayer) => {
       </TouchableWithoutFeedback>
 
       <View style={styles.actions}>
+        {!!player.fall && (
+          <TouchableWithoutFeedback onPress={handleBackFall}>
+            <FontAwesome size={24} name="arrow-circle-left" />
+          </TouchableWithoutFeedback>
+        )}
         <TouchableWithoutFeedback onPress={handleRemove}>
-          <FontAwesome size={28} name="close" />
+          <FontAwesome
+            color={player.isDeleted ? '#fff' : '#000'}
+            size={28}
+            name="close"
+          />
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={handleVote}>
-          <FontAwesome size={28} name="check" />
+          <FontAwesome
+            color={player.isVote ? '#fff' : '#000'}
+            size={28}
+            name="check"
+          />
         </TouchableWithoutFeedback>
       </View>
     </View>
@@ -83,6 +112,11 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderRadius: 16
   },
+  dataText: {
+    width: 50,
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   isVote: {
     backgroundColor: '#00bcc9'
   },
@@ -93,10 +127,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8
-  },
-  number: {
-    fontSize: 24,
-    fontWeight: 'bold'
   },
   actions: {
     flex: 1,
