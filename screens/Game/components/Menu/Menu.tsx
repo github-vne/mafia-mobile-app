@@ -1,4 +1,9 @@
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
 
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -11,6 +16,21 @@ export const Menu = ({ navigation }: { navigation: any }) => {
   const handleVote = (e: any) => {
     e.stopPropagation();
     updateIsShowRoles(!store.isShowRoles);
+  };
+
+  const handleFinishGame = () => {
+    return Alert.alert(
+      'Завершение игры',
+      'Вы уверены, что хотите завершить данную игру?',
+      [
+        { text: 'Завершить игру', onPress: () => console.log('OK Pressed') },
+        {
+          text: 'Отмена',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        }
+      ]
+    );
   };
 
   return (
@@ -26,7 +46,9 @@ export const Menu = ({ navigation }: { navigation: any }) => {
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Vote')}>
         <FontAwesome color="#fff" size={24} name="moon-o" />
       </TouchableWithoutFeedback>
-      <FontAwesome color="#fff" size={24} name="male" />
+      <TouchableWithoutFeedback onPress={handleFinishGame}>
+        <FontAwesome color="#fff" size={24} name="male" />
+      </TouchableWithoutFeedback>
     </View>
   );
 };

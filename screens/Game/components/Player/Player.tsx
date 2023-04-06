@@ -3,6 +3,7 @@ import { ERole, TPlayer } from '../../../../types/player';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useStore } from '../../../../hooks';
 import React, { useMemo } from 'react';
+import { COLORS } from '../../../../constants/colors';
 
 interface IPlayer {
   player: TPlayer;
@@ -64,33 +65,39 @@ export const Player = ({ player }: IPlayer) => {
     >
       <TouchableWithoutFeedback onPress={handleFall}>
         <View style={styles.data}>
-          {store.isShowRoles && <FontAwesome size={20} name={getRoleIcon} />}
-          <Text style={styles.dataText}>
+          {store.isShowRoles && (
+            <FontAwesome color="#fff" size={20} name={getRoleIcon} />
+          )}
+          <Text
+            style={[styles.dataText, player.isVote && { color: COLORS.green }]}
+          >
             {player.order} |{' '}
             <Text style={[!player.isDeleted && styles.fall]}>
               {player.fall}
             </Text>
           </Text>
-          <Text>{player.name}</Text>
+          <Text style={[styles.name, player.isVote && { color: COLORS.green }]}>
+            {player.name}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
 
       <View style={styles.actions}>
         {!!player.fall && (
           <TouchableWithoutFeedback onPress={handleBackFall}>
-            <FontAwesome size={24} name="arrow-circle-left" />
+            <FontAwesome size={24} name="arrow-circle-left" color="#fff" />
           </TouchableWithoutFeedback>
         )}
         <TouchableWithoutFeedback onPress={handleRemove}>
           <FontAwesome
-            color={player.isDeleted ? '#fff' : '#000'}
+            color={player.isDeleted ? COLORS.red : '#fff'}
             size={28}
             name="close"
           />
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={handleVote}>
           <FontAwesome
-            color={player.isVote ? '#fff' : '#000'}
+            color={player.isVote ? COLORS.green : '#fff'}
             size={28}
             name="check"
           />
@@ -102,23 +109,27 @@ export const Player = ({ player }: IPlayer) => {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: '#fff',
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     padding: 12,
     marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#fff',
-    borderRadius: 16
+    borderBottomWidth: 2,
+    borderColor: '#f2f2f2'
   },
   dataText: {
     width: 50,
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center'
   },
   isVote: {
-    backgroundColor: '#00bcc9'
+    borderColor: COLORS.green
+  },
+  name: {
+    fontSize: 18,
+    color: '#fff'
   },
   isDeleted: {
     backgroundColor: '#444'

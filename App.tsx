@@ -15,7 +15,7 @@ export default function App() {
   return (
     <Provider store={stores}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Vote">
+        <Stack.Navigator initialRouteName="Game">
           <Stack.Screen
             name="Home"
             component={Home}
