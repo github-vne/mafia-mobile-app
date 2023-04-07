@@ -1,16 +1,23 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
 import { ERole, TPlayer } from '../../../../types/player';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useStore } from '../../../../hooks';
 import React, { useMemo } from 'react';
 import { COLORS } from '../../../../constants/colors';
+import { getRoleIcon } from '../../../../utils/role';
 
 interface IPlayer {
   player: TPlayer;
 }
 
 export const Player = ({ player }: IPlayer) => {
-  const { store, updatePlayer } = useStore();
+  const { store, updatePlayer, addPlayerVote, removePlayerVote } = useStore();
 
   const handleBackFall = (e: any) => {
     e.stopPropagation();
@@ -22,15 +29,24 @@ export const Player = ({ player }: IPlayer) => {
     });
   };
 
+  const isVote = useMemo(() => {
+    return store.playersVote.includes(player.id);
+  }, [store.playersVote, player.id]);
+
   const handleVote = (e: any) => {
     e.stopPropagation();
     if (player.isDeleted) return;
-    updatePlayer(player.id, { isVote: !player.isVote });
+    if (isVote) {
+      removePlayerVote(player.id);
+    } else {
+      addPlayerVote(player.id);
+    }
   };
 
   const handleRemove = (e: any) => {
     e.stopPropagation();
-    updatePlayer(player.id, { isDeleted: !player.isDeleted, isVote: false });
+    updatePlayer(player.id, { isDeleted: !player.isDeleted });
+    removePlayerVote(player.id);
   };
 
   const handleFall = () => {
@@ -42,41 +58,34 @@ export const Player = ({ player }: IPlayer) => {
     });
   };
 
-  const getRoleIcon = useMemo(() => {
-    switch (player.role) {
-      case ERole.Don:
-        return 'chain';
-      case ERole.Sheriff:
-        return 'star';
-      case ERole.Mafia:
-        return 'user-secret';
-      default:
-        return 'user';
-    }
-  }, [player.role]);
+  const handlePress = (id: string, voteCount: number) => {
+    updatePlayer(id, { voteCount });
+  };
 
   return (
     <View
       style={[
         styles.root,
-        player.isVote && styles.isVote,
+        isVote && styles.isVote,
         player.isDeleted && styles.isDeleted
       ]}
     >
       <TouchableWithoutFeedback onPress={handleFall}>
         <View style={styles.data}>
           {store.isShowRoles && (
-            <FontAwesome color="#fff" size={20} name={getRoleIcon} />
+            <FontAwesome
+              color="#fff"
+              size={20}
+              name={getRoleIcon(player.role)}
+            />
           )}
-          <Text
-            style={[styles.dataText, player.isVote && { color: COLORS.green }]}
-          >
+          <Text style={[styles.dataText, isVote && { color: COLORS.green }]}>
             {player.order} |{' '}
             <Text style={[!player.isDeleted && styles.fall]}>
               {player.fall}
             </Text>
           </Text>
-          <Text style={[styles.name, player.isVote && { color: COLORS.green }]}>
+          <Text style={[styles.name, isVote && { color: COLORS.green }]}>
             {player.name}
           </Text>
         </View>
@@ -88,20 +97,35 @@ export const Player = ({ player }: IPlayer) => {
             <FontAwesome size={24} name="arrow-circle-left" color="#fff" />
           </TouchableWithoutFeedback>
         )}
-        <TouchableWithoutFeedback onPress={handleRemove}>
-          <FontAwesome
-            color={player.isDeleted ? COLORS.red : '#fff'}
-            size={28}
-            name="close"
+
+        {!store.isVoteMode && (
+          <>
+            <TouchableWithoutFeedback onPress={handleRemove}>
+              <FontAwesome
+                color={player.isDeleted ? COLORS.red : '#fff'}
+                size={28}
+                name="close"
+              />
+            </TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback onPress={handleVote}>
+              <FontAwesome
+                color={isVote ? COLORS.green : '#fff'}
+                size={28}
+                name="check"
+              />
+            </TouchableWithoutFeedback>
+          </>
+        )}
+        {store.isVoteMode && isVote && (
+          <TextInput
+            inputMode="numeric"
+            style={styles.input}
+            value={`${player.voteCount || ''}`}
+            maxLength={1}
+            onChangeText={(value) => handlePress(player.id, Number(value))}
           />
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={handleVote}>
-          <FontAwesome
-            color={player.isVote ? COLORS.green : '#fff'}
-            size={28}
-            name="check"
-          />
-        </TouchableWithoutFeedback>
+        )}
       </View>
     </View>
   );
@@ -115,7 +139,8 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 8,
     borderBottomWidth: 2,
-    borderColor: '#f2f2f2'
+    borderColor: '#f2f2f2',
+    minHeight: 54
   },
   dataText: {
     width: 50,
@@ -123,6 +148,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     textAlign: 'center'
+  },
+  input: {
+    backgroundColor: '#fff',
+    width: 50,
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    textAlign: 'center',
+    fontSize: 20
   },
   isVote: {
     borderColor: COLORS.green

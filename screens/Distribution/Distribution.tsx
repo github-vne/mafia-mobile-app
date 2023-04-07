@@ -7,17 +7,17 @@ import {
 } from 'react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { ERole, TPlayer } from '../../types/player';
-import { AVAILABLE_ROLES } from '../../constants/role';
+import { AVAILABLE_ROLES, TITLE_ROLE } from '../../constants/role';
 import { useStore } from '../../hooks';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Header } from '../../components/Header';
 import { COLORS } from '../../constants/colors';
 import { Button } from '../../components/Button';
+import { getRoleIcon } from '../../utils/role';
 
 export const Distribution = ({ navigation }: { navigation: any }) => {
   const { store, updatePlayer } = useStore();
 
-  const [selectType, setSelectType] = useState('self');
   const [playerIndex, setPlayerIndex] = useState(0);
   const [currentRole, setCurrentRole] = useState<ERole | null>(null);
   const [availableRoles, setAvailableRoles] = useState(AVAILABLE_ROLES);
@@ -40,25 +40,22 @@ export const Distribution = ({ navigation }: { navigation: any }) => {
     setPlayerIndex((prev) => prev + 1);
   };
 
-  const getRoleIcon = useMemo(() => {
-    switch (currentRole) {
-      case ERole.Don:
-        return 'chain';
-      case ERole.Sheriff:
-        return 'star';
-      case ERole.Mafia:
-        return 'user-secret';
-      default:
-        return 'user';
-    }
+  const roleIcon = useMemo(() => {
+    if (!currentRole) return 'question';
+    return getRoleIcon(currentRole);
   }, [currentRole]);
 
   return (
     <SafeAreaView style={styles.root}>
       <Header title="Распределение ролей" />
 
-      <FontAwesome size={160} name={currentRole ? getRoleIcon : 'question'} />
-      <Text style={styles.role}>{currentRole || '---'}</Text>
+      <View style={styles.container}>
+        <FontAwesome color="#fff" size={220} name={roleIcon} />
+        {currentRole && (
+          <Text style={styles.role}>{TITLE_ROLE[currentRole]}</Text>
+        )}
+      </View>
+
       {!!availableRoles.length ? (
         <View style={styles.options}>
           {!!currentRole ? (
@@ -66,12 +63,15 @@ export const Distribution = ({ navigation }: { navigation: any }) => {
           ) : (
             <Button
               onPress={getRandomRole}
-              text={`Get random role ${store.players[playerIndex].name}`}
+              text={`${store.players[playerIndex].order}. ${store.players[playerIndex].name}`}
             />
           )}
         </View>
       ) : (
-        <Button onPress={() => navigation.navigate('Game')} text="Game!" />
+        <Button
+          onPress={() => navigation.navigate('Game')}
+          text="Начать игру!"
+        />
       )}
     </SafeAreaView>
   );
@@ -82,34 +82,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.bg
   },
-  choose: {
+  container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  types: {
-    flexDirection: 'row',
-    gap: 16,
-    padding: 16
-  },
-  type: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  isActiveType: {
-    backgroundColor: '#0AFF96'
-  },
-  typeText: {
-    color: '#fff',
-    fontSize: 24
   },
   role: {
-    fontSize: 64
+    fontSize: 68,
+    color: '#fff',
+    fontWeight: 'bold'
   },
   options: {
+    justifyContent: 'center',
     flexDirection: 'row',
     gap: 16
   }

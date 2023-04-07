@@ -7,7 +7,6 @@ import { stores } from './stores/stores';
 import { Distribution } from './screens/Distribution';
 import { Game } from './screens/Game';
 import { DistributionType } from './screens/DistributionType';
-import { Vote } from './screens/Vote';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +14,7 @@ export default function App() {
   return (
     <Provider store={stores}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Game">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={Home}
@@ -39,11 +38,6 @@ export default function App() {
           <Stack.Screen
             name="Game"
             component={Game}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Vote"
-            component={Vote}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

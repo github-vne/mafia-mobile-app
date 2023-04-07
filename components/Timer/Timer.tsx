@@ -14,6 +14,10 @@ export const Timer = ({ sec = 60 }: { sec?: number }) => {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    setTime(sec);
+  }, [sec]);
+
   const handleStop = () => {
     clearInterval(intervalRef.current);
     setIsRunning(false);

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AVAILABLE_ROLES } from '../constants/role';
 import { TPlayer } from '../types/player';
+import { TStore } from '../types/store';
 
 let tempRoles = [...AVAILABLE_ROLES];
 
@@ -26,8 +27,9 @@ const gameSlice = createSlice({
   name: 'game',
   initialState: {
     players: PLAYERS,
+    playersVote: [] as TStore['playersVote'],
     isShowRoles: false,
-    name: ''
+    isVoteMode: false
   },
   reducers: {
     setIsShowRoles(state, action: PayloadAction<boolean>) {
@@ -39,9 +41,25 @@ const gameSlice = createSlice({
         ...player,
         ...(player.id === id && fields)
       }));
+    },
+    resetGame(state) {
+      state.players = PLAYERS;
+      state.isShowRoles = false;
+    },
+    updatePlayersVote(state, action: PayloadAction<TPlayer['id'][]>) {
+      state.playersVote = action.payload;
+    },
+    toggleIsVoteMode(state) {
+      state.isVoteMode = !state.isVoteMode;
     }
   }
 });
 
-export const { setIsShowRoles, updatePlayerData } = gameSlice.actions;
+export const {
+  setIsShowRoles,
+  updatePlayerData,
+  resetGame,
+  updatePlayersVote,
+  toggleIsVoteMode
+} = gameSlice.actions;
 export default gameSlice.reducer;

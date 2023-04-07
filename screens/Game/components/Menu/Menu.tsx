@@ -11,7 +11,13 @@ import { useStore } from '../../../../hooks';
 import { useNavigation } from '@react-navigation/native';
 
 export const Menu = ({ navigation }: { navigation: any }) => {
-  const { store, updateIsShowRoles } = useStore();
+  const {
+    store,
+    updateIsShowRoles,
+    resetPlayersVote,
+    updateIsVoteMode,
+    handleResetGame
+  } = useStore();
 
   const handleVote = (e: any) => {
     e.stopPropagation();
@@ -23,7 +29,13 @@ export const Menu = ({ navigation }: { navigation: any }) => {
       'Завершение игры',
       'Вы уверены, что хотите завершить данную игру?',
       [
-        { text: 'Завершить игру', onPress: () => console.log('OK Pressed') },
+        {
+          text: 'Завершить игру',
+          onPress: () => {
+            handleResetGame();
+            navigation.navigate('Home');
+          }
+        },
         {
           text: 'Отмена',
           onPress: () => console.log('Cancel Pressed'),
@@ -43,11 +55,18 @@ export const Menu = ({ navigation }: { navigation: any }) => {
           style={store.isShowRoles && { color: 'green' }}
         />
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate('Vote')}>
-        <FontAwesome color="#fff" size={24} name="moon-o" />
+      <TouchableWithoutFeedback onPress={updateIsVoteMode}>
+        <FontAwesome
+          color={store.isVoteMode ? 'green' : '#fff'}
+          size={24}
+          name="thumbs-up"
+        />
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={resetPlayersVote}>
+        <FontAwesome color={'#fff'} size={24} name="male" />
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={handleFinishGame}>
-        <FontAwesome color="#fff" size={24} name="male" />
+        <FontAwesome color="#fff" size={24} name="home" />
       </TouchableWithoutFeedback>
     </View>
   );

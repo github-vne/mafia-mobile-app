@@ -12,3 +12,10 @@ export const AVAILABLE_ROLES = [
   ERole.Peaceful,
   ERole.Peaceful
 ];
+
+export const TITLE_ROLE: Record<ERole, string> = {
+  [ERole.Don]: 'Дон мафии',
+  [ERole.Sheriff]: 'Шериф',
+  [ERole.Peaceful]: 'Мирный',
+  [ERole.Mafia]: 'Мафия'
+};
