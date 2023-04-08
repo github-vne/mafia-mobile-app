@@ -1,6 +1,7 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, View } from 'react-native';
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { COLORS } from '../../constants/colors';
 
 export const Timer = ({ sec = 60 }: { sec?: number }) => {
   const [time, setTime] = useState(sec);
@@ -25,7 +26,15 @@ export const Timer = ({ sec = 60 }: { sec?: number }) => {
   };
 
   useEffect(() => {
-    if (!time) handleStop();
+    if (!time) {
+      handleStop();
+      return Alert.alert('Время вышло', `Прошло ${sec} секунд`, [
+        {
+          text: 'Ок',
+          onPress: () => {}
+        }
+      ]);
+    }
   }, [time]);
 
   const handlePause = () => {
@@ -65,18 +74,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderStyle: 'solid',
-    backgroundColor: '#3B3F58',
+    backgroundColor: COLORS.action,
     padding: 8,
     paddingLeft: 16,
     paddingRight: 16
   },
   warning: {
-    color: 'red'
+    color: COLORS.red
   },
   timer: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff'
+    color: COLORS.brown
   },
   timerAction: {
     flexDirection: 'row',

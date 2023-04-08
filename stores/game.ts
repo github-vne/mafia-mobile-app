@@ -16,7 +16,7 @@ const getRandomRole = () => {
 
 const PLAYERS: TPlayer[] = Array.from(new Array(10), (_, i) => i).map((el) => ({
   id: `id-${el}`,
-  name: 'User #' + el,
+  name: 'User #' + (el + 1),
   order: el + 1,
   role: getRandomRole(),
   fall: 0,

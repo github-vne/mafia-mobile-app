@@ -180,6 +180,6 @@ const styles = StyleSheet.create({
     gap: 16
   },
   fall: {
-    color: 'red'
+    color: COLORS.red
   }
 });

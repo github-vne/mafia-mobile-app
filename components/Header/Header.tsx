@@ -1,25 +1,23 @@
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { COLORS } from '../../constants/colors';
 
-export const Header = ({
-  title,
-  onPress
-}: {
-  title: string;
-  onPress?: () => void;
-}) => {
+export const Header = ({ title }: { title: string }) => {
+  const navigate = useNavigation();
+
   return (
     <View style={styles.root}>
-      {onPress && (
-        <TouchableWithoutFeedback onPress={onPress}>
-          <FontAwesome color="#fff" size={24} name="arrow-circle-left" />
-        </TouchableWithoutFeedback>
-      )}
-      <Text style={styles.title}>{title}</Text>
-      <TouchableWithoutFeedback onPress={onPress}>
-        <FontAwesome color="#fff" size={24} name="info" />
+      <View style={styles.bg} />
+      <TouchableWithoutFeedback onPress={() => navigate.goBack()}>
+        <FontAwesome color={COLORS.brown} size={24} name="arrow-circle-left" />
       </TouchableWithoutFeedback>
+      <Text style={styles.title}>{title}</Text>
+      <View />
+      {/*<TouchableWithoutFeedback onPress={onPress}>*/}
+      {/*  <FontAwesome size={24} name="info" />*/}
+      {/*</TouchableWithoutFeedback>*/}
     </View>
   );
 };
@@ -30,12 +28,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 16,
-    paddingBottom: 0
+    position: 'relative'
   },
   title: {
     textAlign: 'center',
-    color: '#fff',
-    fontSize: 24,
+    color: COLORS.brown,
+    fontSize: 22,
     fontWeight: 'bold'
+  },
+  bg: {
+    position: 'absolute',
+    top: -100,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: COLORS.action,
+    borderRadius: 30
   }
 });

@@ -1,13 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { COLORS } from '../../constants/colors';
 
 interface IButton {
   onPress: () => void;
   text: string;
+  style?: Object;
 }
 
-export const Button = ({ onPress, text }: IButton) => {
+export const Button = ({ onPress, text, style }: IButton) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={style}>
       <View style={styles.root}>
         <Text style={styles.text}>{text}</Text>
       </View>
@@ -18,15 +20,13 @@ export const Button = ({ onPress, text }: IButton) => {
 const styles = StyleSheet.create({
   root: {
     padding: 12,
-    paddingRight: 18,
-    paddingLeft: 18,
-    borderRadius: 100,
-    backgroundColor: '#fff',
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    borderRadius: 10,
+    alignItems: 'center',
+    backgroundColor: COLORS.action
   },
   text: {
-    color: '#000',
-    fontSize: 24
+    color: COLORS.brown,
+    fontSize: 24,
+    fontWeight: '500'
   }
 });

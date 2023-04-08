@@ -35,7 +35,7 @@ export const Game = ({ navigation }: { navigation: any }) => {
             />
           </View>
         </TouchableWithoutFeedback>
-        <Timer sec={store.isVoteMode ? 30 : 60} />
+        <Timer sec={store.isVoteMode ? 6 : 60} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -51,8 +51,6 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    paddingTop: 16,
-    paddingBottom: 16,
     justifyContent: 'space-around'
   }
 });

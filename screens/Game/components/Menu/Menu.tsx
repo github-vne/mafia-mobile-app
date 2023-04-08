@@ -9,6 +9,7 @@ import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useStore } from '../../../../hooks';
 import { useNavigation } from '@react-navigation/native';
+import { COLORS } from '../../../../constants/colors';
 
 export const Menu = ({ navigation }: { navigation: any }) => {
   const {
@@ -47,26 +48,26 @@ export const Menu = ({ navigation }: { navigation: any }) => {
 
   return (
     <View style={styles.root}>
+      <View style={styles.bg} />
       <TouchableWithoutFeedback onPress={handleVote}>
         <FontAwesome
-          color="#fff"
+          color={store.isShowRoles ? COLORS.red : COLORS.brown}
           size={24}
           name="eye"
-          style={store.isShowRoles && { color: 'green' }}
         />
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={updateIsVoteMode}>
         <FontAwesome
-          color={store.isVoteMode ? 'green' : '#fff'}
+          color={store.isVoteMode ? COLORS.red : COLORS.brown}
           size={24}
           name="thumbs-up"
         />
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={resetPlayersVote}>
-        <FontAwesome color={'#fff'} size={24} name="male" />
+        <FontAwesome color={COLORS.brown} size={24} name="male" />
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={handleFinishGame}>
-        <FontAwesome color="#fff" size={24} name="home" />
+        <FontAwesome color={COLORS.brown} size={24} name="home" />
       </TouchableWithoutFeedback>
     </View>
   );
@@ -75,9 +76,18 @@ export const Menu = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
-    backgroundColor: '#3B3F58',
     padding: 16,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'relative'
+  },
+  bg: {
+    position: 'absolute',
+    top: -100,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: COLORS.action,
+    borderRadius: 30
   }
 });

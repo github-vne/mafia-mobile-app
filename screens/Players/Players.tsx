@@ -3,7 +3,6 @@ import {
   Keyboard,
   Platform,
   StyleSheet,
-  TextInput,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   View,
@@ -35,8 +34,8 @@ export const Players = ({ navigation }: { navigation: any }) => {
             />
             <View style={styles.btnContainer}>
               <Button
-                text="Start game"
-                onPress={() => navigation.navigate('DistributionType')}
+                text="Распределить роли"
+                onPress={() => navigation.navigate('Distribution')}
               />
             </View>
           </View>

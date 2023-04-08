@@ -1,12 +1,7 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity
-} from 'react-native';
-import { LogoImage, MafiaImage } from '../../assets/images';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+
+import { LogoImage } from '../../assets/images';
 import { COLORS } from '../../constants/colors';
 import { Button } from '../../components/Button';
 
@@ -14,24 +9,27 @@ export const Home = ({ navigation }: { navigation: any }) => {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.main}>
-        <Animatable.Image
-          animation="fadeInLeft"
-          easing="ease-in-out"
-          style={styles.image}
-          source={LogoImage}
-        />
-
-        <View>
-          <View style={styles.textBlock}>
-            <Text style={styles.text}>Welcome to</Text>
-            <Text style={[styles.text, styles.name]}>Mafia</Text>
-          </View>
-
-          <Button
-            text="Начать игру"
-            onPress={() => navigation.navigate('Players')}
+        <View style={styles.content}>
+          <Animatable.Image
+            animation="fadeInLeft"
+            easing="ease-in-out"
+            style={styles.image}
+            source={LogoImage}
           />
+
+          <View>
+            <Text style={styles.title}>Добро пожаловать</Text>
+            <Text style={styles.subText}>
+              В мобильное приложение для игры в{' '}
+              <Text style={styles.mark}>спортивную мафию</Text>
+            </Text>
+          </View>
         </View>
+
+        <Button
+          text="Начать игру"
+          onPress={() => navigation.navigate('Players')}
+        />
       </View>
     </SafeAreaView>
   );
@@ -45,26 +43,32 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     padding: 16,
-    justifyContent: 'space-between',
+    paddingBottom: 32,
     gap: 6
   },
-  textBlock: {
+  content: {
+    flex: 1,
+    gap: 18,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  text: {
-    color: '#fff',
-    fontSize: 35
+  mark: {
+    color: '#92977B'
   },
-  name: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#0AFF96'
+  title: {
+    color: '#fff',
+    fontWeight: '500',
+    fontSize: 36,
+    textAlign: 'center',
+    marginBottom: 12
+  },
+  subText: {
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center'
   },
   image: {
-    width: '100%',
-    height: '100%',
-    maxHeight: 400,
-    resizeMode: 'contain'
+    width: 250,
+    height: 250
   }
 });

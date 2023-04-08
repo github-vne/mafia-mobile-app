@@ -48,31 +48,32 @@ export const Distribution = ({ navigation }: { navigation: any }) => {
   return (
     <SafeAreaView style={styles.root}>
       <Header title="Распределение ролей" />
-
       <View style={styles.container}>
-        <FontAwesome color="#fff" size={220} name={roleIcon} />
-        {currentRole && (
-          <Text style={styles.role}>{TITLE_ROLE[currentRole]}</Text>
-        )}
-      </View>
-
-      {!!availableRoles.length ? (
-        <View style={styles.options}>
-          {!!currentRole ? (
-            <Button onPress={nextPlayer} text={`Next player`} />
-          ) : (
-            <Button
-              onPress={getRandomRole}
-              text={`${store.players[playerIndex].order}. ${store.players[playerIndex].name}`}
-            />
+        <View style={styles.content}>
+          <FontAwesome color="#fff" size={220} name={roleIcon} />
+          {currentRole && (
+            <Text style={styles.role}>{TITLE_ROLE[currentRole]}</Text>
           )}
         </View>
-      ) : (
-        <Button
-          onPress={() => navigation.navigate('Game')}
-          text="Начать игру!"
-        />
-      )}
+
+        {!!availableRoles.length ? (
+          <View style={styles.options}>
+            {!!currentRole ? (
+              <Button onPress={nextPlayer} text="Следующий игрок" />
+            ) : (
+              <Button
+                onPress={getRandomRole}
+                text={`${store.players[playerIndex].order}. ${store.players[playerIndex].name}`}
+              />
+            )}
+          </View>
+        ) : (
+          <Button
+            onPress={() => navigation.navigate('Game')}
+            text="Начать игру!"
+          />
+        )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -83,6 +84,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bg
   },
   container: {
+    flex: 1,
+    padding: 16
+  },
+  content: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
