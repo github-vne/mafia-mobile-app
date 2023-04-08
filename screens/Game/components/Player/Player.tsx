@@ -5,7 +5,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-import { ERole, TPlayer } from '../../../../types/player';
+import { TPlayer } from '../../../../types/player';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useStore } from '../../../../hooks';
 import React, { useMemo } from 'react';
@@ -102,7 +102,7 @@ export const Player = ({ player }: IPlayer) => {
           <>
             <TouchableWithoutFeedback onPress={handleRemove}>
               <FontAwesome
-                color={player.isDeleted ? COLORS.red : '#fff'}
+                color={player.isDeleted ? COLORS.green : '#fff'}
                 size={28}
                 name="close"
               />
@@ -112,7 +112,7 @@ export const Player = ({ player }: IPlayer) => {
               <FontAwesome
                 color={isVote ? COLORS.green : '#fff'}
                 size={28}
-                name="check"
+                name="thumbs-up"
               />
             </TouchableWithoutFeedback>
           </>
@@ -136,11 +136,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    padding: 12,
+    padding: 8,
+    minHeight: 48,
+    backgroundColor: COLORS.item,
     marginBottom: 8,
-    borderBottomWidth: 2,
-    borderColor: '#f2f2f2',
-    minHeight: 54
+    borderWidth: 1,
+    borderRadius: 8
   },
   dataText: {
     width: 50,
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   isDeleted: {
-    backgroundColor: '#444'
+    backgroundColor: COLORS.red
   },
   data: {
     flexDirection: 'row',

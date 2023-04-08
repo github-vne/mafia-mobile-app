@@ -35,7 +35,7 @@ export const Game = ({ navigation }: { navigation: any }) => {
             />
           </View>
         </TouchableWithoutFeedback>
-        <Timer sec={store.isVoteMode ? 6 : 60} />
+        <Timer sec={store.isVoteMode ? 30 : 60} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

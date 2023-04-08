@@ -25,6 +25,8 @@ export const Player = ({ player }: IPlayer) => {
       <Text style={styles.order}>{player.order})</Text>
       <TextInput
         style={styles.input}
+        placeholder="Введите ник"
+        placeholderTextColor="#838383FF"
         onChangeText={(value) => handlePress(value)}
         value={player.name}
         onFocus={toggleFocus}
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     marginBottom: 8,
     borderWidth: 1,
-    borderRadius: 16
+    borderRadius: 8
   },
   isFocus: {
     borderColor: '#fff'
