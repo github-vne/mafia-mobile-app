@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.vne895.mafia-project"
+      "bundleIdentifier": "com.vne895.mafiaproject"
     },
     "android": {
       "adaptiveIcon": {

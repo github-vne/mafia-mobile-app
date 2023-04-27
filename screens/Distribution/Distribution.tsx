@@ -1,12 +1,6 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import { useEffect, useMemo, useState } from 'react';
-import { ERole, TPlayer } from '../../types/player';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useMemo, useState } from 'react';
+import { ERole } from '../../types/player';
 import { AVAILABLE_ROLES, TITLE_ROLE } from '../../constants/role';
 import { useStore } from '../../hooks';
 import FontAwesome from '@expo/vector-icons/FontAwesome';

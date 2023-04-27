@@ -1,9 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { COLORS } from '../../constants/colors';
+import { ReactNode } from 'react';
 
 interface IButton {
   onPress: () => void;
-  text: string;
+  text: ReactNode;
   style?: Object;
 }
 

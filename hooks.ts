@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { TStore } from './types/store';
 import {
+  fillEmptyPlayerNames,
   resetGame,
   setIsShowRoles,
   toggleIsVoteMode,
@@ -54,6 +55,10 @@ export const useStore = () => {
     dispatch(toggleIsVoteMode());
   };
 
+  const updateEmptyPlayerNames = () => {
+    dispatch(fillEmptyPlayerNames());
+  };
+
   return {
     store,
     votePlayers,
@@ -63,6 +68,7 @@ export const useStore = () => {
     updateIsShowRoles,
     updateIsVoteMode,
     handleResetGame,
-    resetPlayersVote
+    resetPlayersVote,
+    updateEmptyPlayerNames
   };
 };

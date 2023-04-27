@@ -49,7 +49,17 @@ const gameSlice = createSlice({
     updatePlayersVote(state, action: PayloadAction<TPlayer['id'][]>) {
       state.playersVote = action.payload;
     },
+    fillEmptyPlayerNames(state) {
+      state.players = state.players.map((player) => ({
+        ...player,
+        name: player.name || `Игрок ${player.order}`
+      }));
+    },
     toggleIsVoteMode(state) {
+      state.players = state.players.map((player) => ({
+        ...player,
+        voteCount: 0
+      }));
       state.isVoteMode = !state.isVoteMode;
     }
   }
@@ -60,6 +70,7 @@ export const {
   updatePlayerData,
   resetGame,
   updatePlayersVote,
-  toggleIsVoteMode
+  toggleIsVoteMode,
+  fillEmptyPlayerNames
 } = gameSlice.actions;
 export default gameSlice.reducer;

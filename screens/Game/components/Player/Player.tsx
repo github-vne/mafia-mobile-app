@@ -11,6 +11,7 @@ import { useStore } from '../../../../hooks';
 import React, { useMemo } from 'react';
 import { COLORS } from '../../../../constants/colors';
 import { getRoleIcon } from '../../../../utils/role';
+import { PlayerOrder } from '../../../../components/PlayerOrder';
 
 interface IPlayer {
   player: TPlayer;
@@ -44,6 +45,7 @@ export const Player = ({ player }: IPlayer) => {
   };
 
   const handleRemove = (e: any) => {
+    if (player.fall === 4) return;
     e.stopPropagation();
     updatePlayer(player.id, { isDeleted: !player.isDeleted });
     removePlayerVote(player.id);
@@ -79,14 +81,15 @@ export const Player = ({ player }: IPlayer) => {
               name={getRoleIcon(player.role)}
             />
           )}
-          <Text style={[styles.dataText, isVote && { color: COLORS.green }]}>
-            {player.order} |{' '}
-            <Text style={[!player.isDeleted && styles.fall]}>
-              {player.fall}
-            </Text>
+          <PlayerOrder order={player.order} />
+          <Text
+            style={[styles.fallText, !player.isDeleted && styles.fallActive]}
+          >
+            {player.fall}
           </Text>
+
           <Text style={[styles.name, isVote && { color: COLORS.green }]}>
-            {player.name}
+            {player.name || `Player №${player.order}`}
           </Text>
         </View>
       </TouchableWithoutFeedback>
@@ -141,7 +144,15 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.item,
     marginBottom: 8,
     borderWidth: 1,
-    borderRadius: 8
+    borderRadius: 16
+  },
+  fallText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    width: 15
+  },
+  fallActive: {
+    color: COLORS.red
   },
   dataText: {
     width: 50,
@@ -156,7 +167,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 2,
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    fontWeight: 'bold'
   },
   isVote: {
     borderColor: COLORS.green
@@ -179,8 +191,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     flexDirection: 'row',
     gap: 16
-  },
-  fall: {
-    color: COLORS.red
   }
 });

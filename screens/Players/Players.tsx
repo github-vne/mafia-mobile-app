@@ -15,7 +15,12 @@ import { Header } from '../../components/Header';
 import { Button } from '../../components/Button';
 
 export const Players = ({ navigation }: { navigation: any }) => {
-  const { store } = useStore();
+  const { store, updateEmptyPlayerNames } = useStore();
+
+  const handleClick = () => {
+    updateEmptyPlayerNames();
+    navigation.navigate('Distribution');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,10 +38,7 @@ export const Players = ({ navigation }: { navigation: any }) => {
               )}
             />
             <View style={styles.btnContainer}>
-              <Button
-                text="Распределить роли"
-                onPress={() => navigation.navigate('Distribution')}
-              />
+              <Button text="Распределить роли" onPress={handleClick} />
             </View>
           </View>
         </TouchableWithoutFeedback>

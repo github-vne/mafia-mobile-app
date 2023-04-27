@@ -1,9 +1,10 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
+import React, { useState } from 'react';
 
 import { TPlayer } from '../../../../types/player';
 import { useStore } from '../../../../hooks';
 import { COLORS } from '../../../../constants/colors';
+import { PlayerOrder } from '../../../../components/PlayerOrder';
 
 interface IPlayer {
   player: TPlayer;
@@ -22,7 +23,8 @@ export const Player = ({ player }: IPlayer) => {
 
   return (
     <View style={[styles.container, isFocus && styles.isFocus]}>
-      <Text style={styles.order}>{player.order})</Text>
+      <PlayerOrder order={player.order} />
+
       <TextInput
         style={styles.input}
         placeholder="Введите ник"
@@ -46,11 +48,13 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     marginBottom: 8,
     borderWidth: 1,
-    borderRadius: 8
+    borderRadius: 16,
+    alignItems: 'center'
   },
   isFocus: {
     borderColor: '#fff'
   },
+
   order: {
     color: '#fff',
     fontSize: 24,
@@ -60,6 +64,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 24,
     width: '100%',
-    color: '#fff'
+    color: '#fff',
+    marginLeft: 16
   }
 });

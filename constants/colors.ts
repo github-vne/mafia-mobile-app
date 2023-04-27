@@ -1,8 +1,8 @@
 export const COLORS = {
   red: '#C94C4C',
-  bg: '#201520',
-  green: '#0AFF96',
+  bg: '#2B2B2B',
+  green: '#00AC4F',
   action: '#EFE3C8',
   brown: '#4A2B29',
-  item: '#4A414A'
+  item: '#3B3B3B'
 };
