@@ -18,7 +18,7 @@ export const Home = ({ navigation }: { navigation: any }) => {
           />
 
           <View>
-            <Text style={styles.title}>Добро пожаловать</Text>
+            <Text style={styles.title}>Добро пожаловать!!!</Text>
             <Text style={styles.subText}>
               В мобильное приложение для игры в{' '}
               <Text style={styles.mark}>спортивную мафию</Text>
